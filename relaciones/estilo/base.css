@@ -1,12 +1,14 @@
 @charset "UTF8";
 body {
-    background-color: #14e737;
+    background-color: rgb(255, 255, 255);
     font-size: 16px;
 }
 #documento {
     margin: 0 auto;
     background-color: #8080ff;
     width: 700px;
+    padding: 20px;
+    border-radius: 20px;
 }
 #cabecera {
     background-color: #14e737;
