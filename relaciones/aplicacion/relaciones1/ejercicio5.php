@@ -18,8 +18,19 @@ foreach ($vector as $clave => $valor) {
                 echo $valor2;
                 echo "<br>";
             }
+            break;
         case "integer":
-            
+            echo $valor . " en binario = " . decbin($valor);
+            break;
+        case "double":
+            echo $valor . " que el cuadrado es " . $valor * $valor . "<br>";
+            break;
+        case "string":
+            echo $valor . "<br>";
+            break;
+        case "boolean":
+            echo $valor ? 'True' : "False" . " y su opuesto es " . (!$valor ? "true" : "false")."<br>";
+            break;
     }
     echo "<br>";
 }
