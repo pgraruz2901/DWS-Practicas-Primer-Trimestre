@@ -11,7 +11,7 @@ $barraUbi = [
         "LINK" => "/aplicacion/relaciones1"
     ],
     [
-        "TEXTO" => "Ejercicio2",
+        "TEXTO" => "Ejercicio5",
         "LINK" => "/aplicacion/relaciones1/ejercicio5.php"
     ]
 ];
