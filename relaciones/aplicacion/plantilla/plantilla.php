@@ -46,7 +46,7 @@ function finCabecera()
     </head>
 <?php
 }
-function inicioCuerpo(string $cabecera)
+function inicioCuerpo(string $cabecera, array $barraUbi = [])
 {
     global $acceso;
 ?>
@@ -68,6 +68,25 @@ function inicioCuerpo(string $cabecera)
                     <li><a href="/aplicacion/relaciones1">Relaciones1</a></li>
                 </ul>
             </div>
+            <div id="barraUbicacion">
+                <?php
+                if ($barraUbi) {
+                    foreach ($barraUbi as $elemento) {
+                        if (isset($elemento["TEXTO"]) && ($elemento["LINK"])) {
+                            if ($elemento["LINK"]) {
+                                echo "<a href=\"{$elemento["LINK"]}\">";
+                                echo $elemento["TEXTO"];
+                            }
+                            if ($elemento["LINK"]) {
+                                echo "<a href=\"{$elemento["LINK"]}\">";
+                                echo "</a>";
+                                echo ">> ";
+                            }
+                        }
+                    }
+                }
+                ?>
+            </div>
 
             <div>
             <?php
@@ -81,7 +100,7 @@ function inicioCuerpo(string $cabecera)
             <footer>
                 <hr width="90%" />
                 <div>
-                    &copy; Copyright by Profesor
+                    &copy; Copyright Pablo Gabriel Granados Ruz
                 </div>
             </footer>
         </div>
