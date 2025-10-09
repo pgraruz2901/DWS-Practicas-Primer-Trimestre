@@ -26,7 +26,7 @@ function cabecera() {}
 function cuerpo()
 {
 ?>
-
+    <br>
 <?php
 
     $vector = array();

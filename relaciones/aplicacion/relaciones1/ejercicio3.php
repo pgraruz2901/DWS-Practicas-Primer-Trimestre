@@ -26,6 +26,7 @@ function cabecera() {}
 function cuerpo()
 {
 ?>
+    <br>
 <?php
     $array = array();
     $array[1] = "uno";
