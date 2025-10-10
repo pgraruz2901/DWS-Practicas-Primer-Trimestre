@@ -28,6 +28,6 @@ function cabecera() {}
 function cuerpo()
 {
     global $valor1, $valor2;
-    echo str_pad(number_format($valor1, 1, ","), 15, 0, STR_PAD_LEFT) . "<br><br>";
-    echo number_format($valor2, 2, ",", ".");
+    echo "<br><br>Valor 1: " . str_pad(number_format($valor1, 1, ","), 15, 0, STR_PAD_LEFT) . "<br><br>";
+    echo "Valor 2: " . number_format($valor2, 2, ",", ".");
 }
