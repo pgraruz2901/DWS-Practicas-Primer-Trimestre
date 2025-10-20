@@ -54,13 +54,13 @@ function cuerpo()
         echo "<br>";
     }
     echo "Mostrar cadena en orden inverso usando mb_substr, con pares en mayuscula y impares en minuscula<br>";
-    for ($i = strlen($cadena) - 1; $i >= 0; $i--) {
+    for ($i = mb_strlen($cadena) - 1; $i >= 0; $i--) {
         if ($i % 2 == 0) {
             $palabra = mb_strtoupper(mb_substr($cadena, $i, 1));
         } else {
             $palabra = mb_strtolower(mb_substr($cadena, $i, 1));
         }
-        for ($j = strlen($cadena) - 1; $j > $i; $j--) {
+        for ($j = mb_strlen($cadena) - 1; $j > $i; $j--) {
             echo "&nbsp";
         }
         echo $palabra;
@@ -74,6 +74,12 @@ function cuerpo()
     }
     echo "Localiza en la cadena la palabra niña y cambia el siguiente carácter a niña (el
 espacio en blanco) por `/mujer`<br>";
-    $cadenaNueva = str_replace("niña ", "niña/mujer ", $cadena);
-    echo $cadenaNueva;
+    // $cadenaNueva = str_replace("niña ", "niña/mujer ", $cadena);
+    // echo $cadenaNueva;
+    $posCadena = $cadena;
+    $pos_niña = mb_strpos($cadena, "niña");
+    if ($pos_niña != false) {
+        $posCadena = mb_substr($cadena, 0, $pos_niña + 4) . "/Mujer" . mb_substr($cadena, $pos_niña + 5);
+    }
+    echo $posCadena;
 }

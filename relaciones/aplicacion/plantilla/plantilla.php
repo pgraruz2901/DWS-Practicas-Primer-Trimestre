@@ -67,6 +67,8 @@ function inicioCuerpo(string $cabecera, array $barraUbi = [])
                     <li><a href="/aplicacion/pruebas">pruebas</a></li>
                     <li><a href="/aplicacion/relaciones1">Relaciones1</a></li>
                     <li><a href="/aplicacion/relaciones2">Relaciones2</a></li>
+                    <li><a href="/aplicacion/relaciones3">Relaciones3</a></li>
+                    <li><a href="/aplicacion/relaciones4">Relaciones4</a></li>
 
                 </ul>
             </div>
