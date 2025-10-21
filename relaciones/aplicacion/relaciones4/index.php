@@ -11,6 +11,7 @@ $barraUbi = [
         "LINK" => "/aplicacion/relaciones4"
     ]
 ];
+$instrumento = new InstrumentoViento();
 inicioCabecera("Ejercicios");
 cabecera();
 finCabecera();
@@ -24,7 +25,6 @@ function cuerpo()
 ?>
     <ul>
         <li><a href="Ejercicio1/index.php">Ejercicio 1</a></li>
-        <li><a href="Ejercicio2/index.php">Ejercicio 2</a></li>
         <li><a href="Ejercicio3/index.php">Ejercicio 3</a></li>
         <li><a href="Ejercicio4/index.php">Ejercicio 4</a></li>
         <li><a href="Ejercicio5/index.php">Ejercicio 5</a></li>
