@@ -26,6 +26,5 @@ finCuerpo();
 function cabecera() {}
 function cuerpo()
 {
-    global $persona;
-    echo $persona->__toString();
+    
 }
