@@ -42,12 +42,16 @@ condición. (tienes que rellenar el array con todos los caracteres validos)<br><
 caracteres que no lo cumplan).<br><br>";
     $cadenaAleatoria2 = "";
     for ($i = 0; $i < $longitud; $i++) {
+<<<<<<< HEAD
 
         do {
             $caracter = mt_rand(48, 122);
         } while (($caracter >= 58 && $caracter <= 64) || ($caracter >= 91 && $caracter <= 96));
 
         $cadenaAleatoria2 .= chr($caracter);
+=======
+        $cadenaAleatoria2 .= chr(mt_rand(32, 126));
+>>>>>>> relacion3
     }
     echo $cadenaAleatoria2;
 }

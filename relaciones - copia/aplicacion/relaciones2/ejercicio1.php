@@ -7,7 +7,11 @@ $barraUbi = [
         "LINK" => "/index.php"
     ],
     [
+<<<<<<< HEAD
         "TEXTO" => "Relacion2",
+=======
+        "TEXTO" => "Relacion1",
+>>>>>>> relacion3
         "LINK" => "/aplicacion/relaciones2"
     ],
     [
@@ -15,7 +19,11 @@ $barraUbi = [
         "LINK" => "/aplicacion/relaciones2/ejercicio1.php"
     ]
 ];
+<<<<<<< HEAD
 $cadena1 = "&lt;h1> è, à, ñ&lt;/h1> <br><br>";
+=======
+$cadena1 = "<h1> è, à, ñ</h1>";
+>>>>>>> relacion3
 $cadena2 = '<h1> è, à, ñ</h1>';
 $cadena3 = <<<HEREDOC
 <h1>', è, à, ñ</h1>

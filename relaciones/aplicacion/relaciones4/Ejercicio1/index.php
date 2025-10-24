@@ -17,16 +17,20 @@ $barraUbi = [
     ]
 ];
 $saxofon = new instrumentoBase("Esto es un saxofon", 2);
+$saxofon2 = new instrumentoBase("Esto es un saxofon", 2);
+$saxofon3 = new instrumentoBase("Esto es un saxofon", 2);
+$saxofon4 = new instrumentoBase("Esto es un saxofon", 2);
+$saxofon5 = new instrumentoBase("Esto es un saxofon", 2);
 inicioCabecera("Ejercicios");
 cabecera();
 finCabecera();
-
 inicioCuerpo("Ejercicios", $barraUbi);
 cuerpo(); //llamo a la vista
 finCuerpo();
 function cabecera() {}
 function cuerpo()
 {
-    global $saxofon;
-    echo $saxofon->__toString();
+    //global $saxofon, $saxofon3;
+    //echo "<br>" . $saxofon->__toString();
+    //echo "<br>" . $saxofon3->__toString();
 }
