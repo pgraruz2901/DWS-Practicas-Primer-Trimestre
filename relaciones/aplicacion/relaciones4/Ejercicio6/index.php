@@ -26,5 +26,8 @@ finCuerpo();
 function cabecera() {}
 function cuerpo()
 {
-    
+    echo "<br>";
+    foreach (new SerieFibonacci(10) as $valor) {
+        echo "$valor &nbsp;";
+    };
 }

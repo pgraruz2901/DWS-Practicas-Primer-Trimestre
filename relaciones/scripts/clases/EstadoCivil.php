@@ -25,4 +25,9 @@ enum EstadoCivil: int
     {
         return array_map(fn($caso) => $caso->value, EstadoCivil::cases());
     }
+    //No tiene la sobrecarga de propiedades por defecto.
+    public function __get($name): mixed
+    {
+        throw new Exception("La propiedad $name no existe en la enum EstadoCivil");
+    }
 }
