@@ -9,13 +9,13 @@ final class Flauta extends InstrumentoViento implements IFabricable
     }
     //getter
     //Metodo CrearDesdeArray
-    static public function CrearDesdeArray(array $datos): Flauta
+    static public function CrearDesdeArray(array $datos): static
     {
-        return new Flauta($datos[0] ?? "Esto es una flauta", $datos["edad"] ?? 0, $datos["material"] ?? "plastico duro");
+        return new static($datos[0] ?? "Esto es una flauta", $datos["edad"] ?? 0, $datos["material"] ?? "plastico duro");
     }
     public function Clonacion()
     {
-        return new Flauta($this->getdescripcion(), 0, $this->_material);
+        return new static($this->getdescripcion(), 0, $this->_material);
     }
     //metodos de IFabricable
     public function metodoFabricacion()

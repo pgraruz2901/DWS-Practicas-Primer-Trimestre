@@ -3,9 +3,9 @@ class InstrumentoViento extends InstrumentoBase
 {
     protected string $_material;
     //constructor
-    function __construct($descripcion = "instrumento de viento", int $edad = 15, string $material = "madera")
+    function __construct(int $edad = 15, string $material = "madera")
     {
-        parent::__construct($descripcion, $edad);
+        parent::__construct("instrumento de viento", $edad);
         $this->_material = $material;
     }
     //metodo afinar

@@ -1,5 +1,5 @@
 <?php
-class ClaseMisPropiedades implements Iterable
+class ClaseMisPropiedades implements Iterator
 
 {
     private $_propiedades = [];
@@ -22,7 +22,7 @@ class ClaseMisPropiedades implements Iterable
         }
         return $this->_propiedades[$name] ?? null;
     }
-    
+
     //Iterable
     public function getIterator(): Traversable
     {
@@ -33,5 +33,25 @@ class ClaseMisPropiedades implements Iterable
         foreach ($props as $key => $value) {
             yield 'oi_' . $key => $value;
         }
+    }
+    public function rewind(): void
+    {
+        reset($this->_propiedades);
+    }
+    public function current(): mixed
+    {
+        return current($this->_propiedades);
+    }
+    public function key(): mixed
+    {
+        return key($this->_propiedades);
+    }
+    public function next(): void
+    {
+        next($this->_propiedades);
+    }
+    public function valid(): bool
+    {
+        return key($this->_propiedades) !== null;
     }
 }
