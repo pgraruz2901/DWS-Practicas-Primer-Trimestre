@@ -1,6 +1,7 @@
 <?php
 
-// namespace VALNORMAL;
+namespace VALNORMAL;
+use \DateTime;
 
 function validaEntero(int &$var, int $min, int $max, int $defecto): bool
 {

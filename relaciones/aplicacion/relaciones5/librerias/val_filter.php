@@ -1,5 +1,8 @@
 <?php
-// namespace VALFILTER;
+
+namespace VALFILTER;
+
+use \DateTime;
 
 function validaEntero(int &$var, int $min, int $max, int $defecto): bool
 {
@@ -57,7 +60,7 @@ function validaEmail(string &$var, string $defecto): bool
 {
     $resultado = false;
     $expresion = "/^[\w.-]+@[\w.-]\.[a-zA-Z]{2,}$/";
-    if (filter_var($var, FILTER_VALIDATE_EMAIL)&&preg_match($expresion, $var)) {
+    if (filter_var($var, FILTER_VALIDATE_EMAIL) && preg_match($expresion, $var)) {
         return $resultado = true;
     } else {
         $var = $defecto;
