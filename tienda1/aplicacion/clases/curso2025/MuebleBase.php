@@ -21,6 +21,9 @@ abstract class MuebleBase
     public int $MaterialPrincipal = 1;
     public float $precio = 30;
 
+    //Propiedad privada tipo Caracteristicas
+    private Caracteristicas $caracteristicas;
+
 
     //constructor
     function __construct(string $nombre, ?string $fabricante, ?string $pais, ?int $anio, ?string $fechaIniVenta, ?string $fechaFinVenta, ?int $materialPrincipal, ?float $precio)
@@ -53,6 +56,8 @@ abstract class MuebleBase
         if ($this->_mueblesCreados > self::MAXIMO_MUEBLES) {
             throw new Exception("Se ha superado el maximo de muebles permitidos");
         }
+        $caracteristicas = new Caracteristicas();
+        $this->caracteristicas = $caracteristicas;
     }
 
     //funcion dameListaPropiedades
@@ -115,6 +120,32 @@ abstract class MuebleBase
         "MUEBLE de clase " . $this->MaterialPrincipal . " con nombre " . $this->nombre . " , fabricante " . $this->fabricante . " , fabricado en " . $this->pais . " a partir del año " . $this->anio . " , vendido desde " . $this->fechaIniVenta . " hasta " . $this->fechaFinVenta . " , precio " . $this->precio . " de material " . $this->getMaterialDescripcion();
     }
 
+    //Metodo Añadir
+    public function añadir(...$args)
+    {
+        $total = count($args);
+        //si el numero es impar quitamos el ultimo elemento
+        if ($total % 2 !== 0) {
+            array_pop($args);
+            $total--;
+        }
+        for ($i = 0; $i < $total; $i++) {
+            $carac = $args[$i];
+            $valor = $args[$i + 1];
+        }
+        //Solo añadimos la caracteristica si es string
+        if (is_string($carac)) {
+            $this->caracteristicas[$carac] = $valor;
+        }
+    }
+    //Metodo exportarCaracteristicas
+        // public function exportarCaracteristicas(){
+        //     for($i=0;$i<count($this->caracteristicas);$i++){
+        //         $carac = $this->caracteristicas[$i];
+        //         $valor = $this->caracteristicas[$i + 1];
+        //     }
+        // }
+
     //setters y getters
     public function getNombre(): string
     {
@@ -126,7 +157,6 @@ abstract class MuebleBase
             $this->nombre = mb_strtoupper($nombre);
             return true;
         } else {
-            // throw new Exception("El nombre es erroneo");
             return false;
         }
     }
