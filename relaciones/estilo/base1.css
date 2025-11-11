@@ -73,10 +73,10 @@ body {
     border-radius: 4px;
 }
 .error {
-    background-color: white;
+    /* background-color: white; */
     color: red;
-    border: thin solid red;
-    padding: 5px;
+    /* border: thin solid red; */
+    /* padding: 5px; */
 }
 li {
     margin-left: 14px;

@@ -25,6 +25,7 @@ spl_autoload_register(function ($clase) {
     }
 });
 
+
 include(RUTABASE . "/aplicacion/plantilla/plantilla.php");
 include(RUTABASE . "/aplicacion/config/acceso_bd.php");
 

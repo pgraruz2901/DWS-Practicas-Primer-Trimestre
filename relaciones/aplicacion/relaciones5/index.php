@@ -161,4 +161,3 @@ function mostrarResumen($datos, $estadosValidos)
     echo "<li><strong>Sueldo:</strong> {$datos['sueldo']} €</li>";
     echo "</ul>";
 }
-?>
