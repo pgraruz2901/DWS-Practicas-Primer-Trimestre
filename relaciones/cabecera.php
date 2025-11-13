@@ -29,6 +29,6 @@ spl_autoload_register(function ($clase) {
 include(RUTABASE . "/aplicacion/plantilla/plantilla.php");
 include(RUTABASE . "/aplicacion/config/acceso_bd.php");
 
-
+$PUNTOS = [];
 
 //creo todos los objetos que necesita mi aplicación

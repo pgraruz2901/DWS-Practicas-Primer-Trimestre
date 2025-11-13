@@ -2,7 +2,7 @@
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 include_once(dirname(__FILE__) . "/../../scripts/librerias/validacion.php");
 include_once(dirname(__FILE__) . "/procesarPuntos.php");
-// include_once(dirname(__FILE__) . "/clases/Punto.php");
+// include_once(dirname(__FILE__) . "/funcionesPuntos.php");
 // Inicializaciones
 $barraUbi = [
     [
@@ -66,6 +66,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } catch (Exception $e) {
         $errores["error"] = $e->getMessage();
     }
+
+    if (empty($errores)) {
+        //sacamos la IP
+        $ip = $_SERVER["REMOTE_ADDR"];
+        $arraynum = explode(".", $ip);
+        $nombreIP = "";
+        foreach ($arraynum as $num) {
+            $nombreIP .= $num . "_";
+        }
+        //Sacamos el navegador
+        $navegador = $_SERVER["HTTP_USER_AGENT"];
+        $arrayNav = explode("/", $navegador);
+        $nombreNavegador = $arrayNav[2];
+        $array = explode(")", $nombreNavegador);
+        $nombreNavegador = $array[1];
+
+        //Creamos el nombre del fichero
+        $nFichero = __DIR__ . "/puntos_" . $nombreIP . $nombreNavegador . ".dat";
+        $punto = new Punto($datos["x"], $datos["y"], $datos["color"], $datos["grosor"]);
+        $PUNTOS[] = $punto;
+        $fichero = fopen($nFichero, "a");
+        for ($i = 0; $i < count($PUNTOS); $i++) {
+            fwrite($fichero, $PUNTOS[$i] . "\n");
+        }
+        fclose($fichero);
+    }
 }
 
 // VISTA
@@ -74,13 +100,13 @@ cabecera();
 finCabecera();
 
 inicioCuerpo("Relación 7");
-cuerpo($datos, $errores, $arrayPuntos);
+cuerpo($datos, $errores, $PUNTOS);
 finCuerpo();
 
 // FUNCIONES DE VISTA
 function cabecera() {}
 
-function cuerpo($datos, $errores, $arrayPuntos)
+function cuerpo($datos, $errores, $PUNTOS)
 {
 ?>
     <form method="post" action="index.php">
@@ -113,30 +139,34 @@ function cuerpo($datos, $errores, $arrayPuntos)
         </label><br>
         <span class="error"><?= $errores["color"] ?? "" ?></span><br>
 
-
-        <!-- Definir grosor del punto -->
         <p><strong>Grosor del punto:</strong></p>
+
         <label>
-            <input type="radio" name="grosor" value="fino"
-                <?= (($datos["grosor"] ?? "") === "fino") ? "checked" : "" ?>>
+            <input type="radio" name="grosor" value="1" <?= (($datos["grosor"] ?? "") === "1") ? "checked" : "" ?>>
             Fino
         </label><br>
 
         <label>
-            <input type="radio" name="grosor" value="medio"
-                <?= (($datos["grosor"] ?? "") === "medio") ? "checked" : "" ?>>
+            <input type="radio" name="grosor" value="2" <?= (($datos["grosor"] ?? "") === "2") ? "checked" : "" ?>>
             Medio
         </label><br>
 
         <label>
-            <input type="radio" name="grosor" value="gordo"
-                <?= (($datos["grosor"] ?? "") === "gordo") ? "checked" : "" ?>>
-            Gordo
-        </label><br><br>
+            <input type="radio" name="grosor" value="3" <?= (($datos["grosor"] ?? "") === "3") ? "checked" : "" ?>>
+            Grueso
+        </label><br>
         <span class="error"><?= $errores["grosor"] ?? "" ?></span>
         <br>
+        <button type="submit">Guardar</button><br>
 
-        <button type="submit">Guardar</button>
+        <label>
+            <textarea name="punts" id="puntos">
+            <?php
+            echo file_get_contents("puntos.txt");
+
+
+            ?></textarea>
+        </label><br>
     </form>
 <?php
 }

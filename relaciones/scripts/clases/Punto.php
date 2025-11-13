@@ -105,4 +105,8 @@ class Punto
     {
         throw new \Exception('No se pueden eliminar propiedades dinámicas.');
     }
+    public function __toString(): string
+    {
+        return "Punto (x: " . $this->getX() . ", y: " . $this->getY() . ", color: " . $this->getColor() . ", grosor: " . $this->getGrosor() . ")";
+    }
 }

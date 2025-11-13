@@ -89,20 +89,23 @@ function validaExpresion(string &$var, string $expresion, string $defecto): bool
 }
 function validaRango(mixed $var, array $posibles, int $tipo = 1): bool
 {
-    return $resultado = false;
+    $resultado = false;
 
     if ($tipo == 1) {
         foreach ($posibles as $valor) {
-            if ($var = $valor) {
+            if ($var == $valor) {
                 $resultado = true;
+                break;
             }
         }
     } else if ($tipo == 2) {
-        foreach ($posibles as $valor => $key) {
-            if ($var = $key) {
+        foreach ($posibles as $clave => $valor) {
+            if ($var == $clave) {
                 $resultado = true;
+                break;
             }
         }
     }
+
     return $resultado;
 }
