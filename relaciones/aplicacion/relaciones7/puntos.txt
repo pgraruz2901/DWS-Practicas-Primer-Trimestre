@@ -1,3 +1,0 @@
-Punto (x: 54, y: 45, color: red, grosor: 2)
-Punto (x: 54, y: 54, color: black, grosor: 2)
-Punto (x: 54, y: 65, color: white, grosor: 2)
