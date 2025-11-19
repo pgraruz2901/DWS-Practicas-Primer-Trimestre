@@ -50,9 +50,9 @@ class ACLArray extends ACLBase
             $this->getCodRole("administradores")
         );
         $this->anadirUsuario(
-            "Vicente Tejero",
-            "vicente",
-            "profesor",
+            "Pablo Gabriel",
+            "Pablo",
+            "alumno",
             $this->getCodRole("administradores")
         );
     }
@@ -258,9 +258,7 @@ class ACLArray extends ACLBase
      * @return boolean Devuelve true si encuentra el usuario y 
      * false en caso contrario
      */
-    function existeUsuario(string $nick): bool {
-        
-    }
+    function existeUsuario(string $nick): bool {}
 
     /**
      * Función que comprueba que existe un usuario y la contraseña indicada es la correcta

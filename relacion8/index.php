@@ -28,7 +28,6 @@ function cabecera() {}
 //vista
 function cuerpo($contadorUsu)
 {
-
     echo " Estas son las veces que se ha accedido a la pagina ";
     echo $contadorUsu;
 }

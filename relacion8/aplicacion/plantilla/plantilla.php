@@ -56,10 +56,10 @@ if (!isset($_COOKIE["color_texto"])) {
 
 function inicioCuerpo(string $cabecera, array $barraUbi = [])
 {
+    global $acceso;
     $colorTexto = $_COOKIE["color_texto"] ?? COLORESTEXTO["negro"];
     $colorFondo = $_COOKIE["color_fondo"] ?? COLORESFONDO["blanco"];
 
-    global $acceso;
 ?>
 
     <body style="background-color: <?= $colorFondo ?>; color: <?= $colorTexto ?>;">
@@ -78,7 +78,7 @@ function inicioCuerpo(string $cabecera, array $barraUbi = [])
                     <li><a href="/aplicacion/pruebas">pruebas</a></li>
                     <li><a href="/aplicacion/personalizar/personalizar.php">Personalizar</a></li>
                     <li><a href="/aplicacion/texto/verTextos.php">Texto</a></li>
-
+                    <li><a href="/aplicacion/acceso/login.php">Login</a></li>
                 </ul>
             </div>
             <div id="barraUbicacion">

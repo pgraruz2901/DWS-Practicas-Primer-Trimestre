@@ -1,6 +1,5 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
-include_once(dirname(__FILE__) . "/../clases/RegistroTexto.php");
 
 // Inicializaciones
 $barraUbi = [
