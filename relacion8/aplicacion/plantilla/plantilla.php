@@ -71,11 +71,18 @@ function inicioCuerpo(string $cabecera, array $barraUbi = [])
 
             <div id="barraLogin">
 
+                <?php
+                if ($acceso->hayUsuario()) {
+                    $nombre = $acceso->getNombre();
+                    echo "Este es el usuario: " . $nombre;
+                    echo "<a href='/aplicacion/acceso/logout.php'> Cerrar Sesión</a>";
+                }
+
+                ?>
             </div>
             <div id="barraMenu">
                 <ul>
                     <li><a href="/index.php">Inicio</a></li>
-                    <li><a href="/aplicacion/pruebas">pruebas</a></li>
                     <li><a href="/aplicacion/personalizar/personalizar.php">Personalizar</a></li>
                     <li><a href="/aplicacion/texto/verTextos.php">Texto</a></li>
                     <li><a href="/aplicacion/acceso/login.php">Login</a></li>

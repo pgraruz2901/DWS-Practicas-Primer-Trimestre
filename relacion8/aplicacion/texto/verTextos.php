@@ -1,6 +1,15 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 
+
+if (!$acceso->hayUsuario()) {
+    header("Location: /aplicacion/acceso/login.php");
+    exit();
+}
+if (!$acceso->puedePermiso(1)) {
+    paginaError("no tienes los suficientes permisos");
+    exit();
+}
 // Inicializaciones
 $barraUbi = [
     ["TEXTO" => "Inicio",      "LINK" => "/index.php"],

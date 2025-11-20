@@ -29,7 +29,6 @@ class ACLArray extends ACLBase
     private $_usuarios = [];
 
 
-
     function __construct()
     {
         //añade los roles
@@ -51,8 +50,8 @@ class ACLArray extends ACLBase
         );
         $this->anadirUsuario(
             "Pablo Gabriel",
-            "Pablo",
-            "alumno",
+            "pablo",
+            "estudiante",
             $this->getCodRole("administradores")
         );
     }
@@ -139,7 +138,7 @@ class ACLArray extends ACLBase
      */
     function existeRole(int $codRole): bool
     {
-        return isset($_roles[$codRole]);
+        return isset($this->_roles[$codRole]);
     }
 
     /**
@@ -258,7 +257,17 @@ class ACLArray extends ACLBase
      * @return boolean Devuelve true si encuentra el usuario y 
      * false en caso contrario
      */
-    function existeUsuario(string $nick): bool {}
+    function existeUsuario(string $nick): bool
+    {
+        // $resultado = false;
+        foreach ($this->_usuarios as $usuario) {
+            if ($usuario["nick"] === $nick) {
+                return true;
+            }
+        }
+        return false;
+        // return $resultado;
+    }
 
     /**
      * Función que comprueba que existe un usuario y la contraseña indicada es la correcta
@@ -281,13 +290,8 @@ class ACLArray extends ACLBase
         $codigo = $this->getCodUsuario($nick);
 
         //establecer el metodo de encriptado
-        $contrasena = password_hash($contrasena, PASSWORD_BCRYPT);
 
-        if ($this->_usuarios[$codigo]["contrasenia"] != $contrasena)
-            return false;
-
-        // es valido
-        return true;
+        return password_verify($contrasena, $this->_usuarios[$codigo]["contrasenia"]);
     }
 
     /**
@@ -298,7 +302,12 @@ class ACLArray extends ACLBase
      * @return boolean Devuelve true si existe el usuario y tiene el permiso. 
      * False en otro caso
      */
-    function getPermiso(int $codUsuario, int $numero): bool {}
+    function getPermiso(int $codUsuario, int $numero): bool
+    {
+        $codRole = $this->_usuarios[$codUsuario]["cod_role"];
+
+        return isset($this->_roles[$codRole]["permisos"][$numero]);
+    }
 
     /**
      * Función que devuelve los permisos de un usuario
@@ -307,7 +316,13 @@ class ACLArray extends ACLBase
      * @return array|false Devuelve los permisos del usuario o false si 
      * no existe el usuario
      */
-    function getPermisos(int $codUsuario): array|false {}
+    function getPermisos(int $codUsuario): array|false
+    {
+        $array = [];
+        $codRole = $this->_usuarios[$codUsuario]["cod_role"];
+
+        return $this->_roles[$codRole]["permisos"];
+    }
 
     /**
      * Función que devuelve el nombre de un usuario
@@ -330,7 +345,10 @@ class ACLArray extends ACLBase
      * @return boolean true si el usuario existe y no está borrado.
      * False en otro caso
      */
-    function getBorrado(int $codUsuario): bool {}
+    function getBorrado(int $codUsuario): bool
+    {
+        return isset($this->_usuarios[$codUsuario]["borrado"]);
+    }
 
     /**
      * Devuelve el role que tiene un usuario concreto
@@ -371,7 +389,14 @@ class ACLArray extends ACLBase
      * @return boolean Devuelve true si ha podido asignar la contraseña
      * False en otro caso
      */
-    function setContrasenia(int $codUsuario, string $contrasenia): bool {}
+    function setContrasenia(int $codUsuario, string $contrasenia): bool
+    {
+        $password = password_hash($contrasenia, PASSWORD_BCRYPT);
+        if ($this->existeCodUsuario($codUsuario)) {
+            $this->_usuarios[$codUsuario]["contrasenia"] = $password;
+            return true;
+        } else return false;
+    }
 
     /**
      * Función que borra/desborra lógicamente un usuario 
@@ -400,15 +425,28 @@ class ACLArray extends ACLBase
      * @return boolean Devuelve true si ha podido asignar el role al usuario.
      * False si no existe el usuario, role o no ha podido asignarlo
      */
-    function setUsuarioRole(int $codUsuario, int $role): bool {}
-
+    function setUsuarioRole(int $codUsuario, int $role): bool
+    {
+        if ($this->existeCodUsuario($codUsuario)) {
+            $this->_usuarios[$codUsuario]["cod_role"] = $role;
+            return true;
+        } else return false;
+    }
     /**
      * Devuelve un array con todos los usuarios existentes. 
      * La clave es el codigo de usuario, el valor es el nick del usuario 
      *
      * @return array Array con todos los usuarios existentes
      */
-    function dameUsuarios(): array {}
+    function dameUsuarios(): array
+    {
+        $array = [];
+
+        foreach ($this->_usuarios as $cod => $value) {
+            $array[$cod] = $value["nick"];
+        }
+        return $array;
+    }
 
     /**
      * Devuelve un array con todos los roles existentes. 

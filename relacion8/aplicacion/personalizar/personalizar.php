@@ -6,12 +6,23 @@ $barraUbi = [
     ["TEXTO" => "Inicio",      "LINK" => "/index.php"],
     ["TEXTO" => "index",       "LINK" => "/aplicacion/cookies_sesiones.php"]
 ];
+if (!$acceso->hayUsuario()) {
+    header("Location: /aplicacion/acceso/login.php");
+    exit();
+}
+if (!$acceso->puedePermiso(1)) {
+    paginaError("no tienes los suficientes permisos");
+    exit();
+}
 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     setcookie("color_fondo", $_POST["fondo"], time() +  2 * 24 * 3600, "/");
     setcookie("color_texto", $_POST["texto"], time() +  2 * 24 * 3600, "/");
-
+    if (!$acceso->puedePermiso(2)) {
+        paginaError("no tienes los suficientes permisos");
+        exit();
+    }
     header("Location: personalizar.php");
 }
 // VISTA

@@ -7,11 +7,18 @@ $barraUbi = [
     ["TEXTO" => "index",       "LINK" => "/aplicacion/acceso/login.php"]
 ];
 $errores = [];
-
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    if (!isset($_POST["nick"]) || !isset($_POST["contraseña"])) {
-        $errores[] = "No has introducido uno de los dos campos";
+    if (empty($_POST["nick"]) || empty($_POST["contraseña"])) {
+        $errores[] = "No has introducido alguno de los dos campos";
+    } else {
+        if ($ACLArray->esValido($_POST["nick"], $_POST["contraseña"])) {
+            $codUsuario = $ACLArray->getCodUsuario($_POST["nick"]);
+            $permisos = $ACLArray->getPermisos($codUsuario);
+            $nombre = $ACLArray->getNombre($codUsuario);
+            $acceso->registrarUsuario($_POST["nick"], $nombre, $permisos);
+        } else {
+            $errores[] = "Credenciales incorrectas";
+        }
     }
 }
 // VISTA
@@ -20,7 +27,7 @@ cabecera();
 finCabecera();
 
 inicioCuerpo("Personalizar");
-cuerpo();
+cuerpo($errores);
 finCuerpo();
 
 
@@ -28,16 +35,16 @@ finCuerpo();
 
 function cabecera() {}
 
-function cuerpo()
+function cuerpo($errores)
 {
 
 ?>
     <form action="login.php" method="post">
         <label>Nick:
-            <input type="text" name="nick">
-        </label>
+            <input type="text" name="nick" id="nick">
+        </label><br><br>
         <label>Contraseña:
-            <input type="password" name="contraseña">
+            <input type="password" name="contraseña" id="contraseña">
         </label>
 
         <?php
@@ -49,7 +56,7 @@ function cuerpo()
             echo "</ul>";
         }
         ?>
-
+        <br><br>
         <button type="submit">Enviar</button>
     </form>
 

@@ -38,6 +38,7 @@ class Acceso
             $_SESSION["acceso"]["permisos"] = $this->_permisos;
             return true;
         } else {
+            $_SESSION["acceso"]["validado"] = false;
             return false;
         }
     }
@@ -127,13 +128,10 @@ class Acceso
      */
     public function puedePermiso(int $numero): bool
     {
-        $esIgual = false;
-        foreach ($this->_permisos as $permisos) {
-            if ($permisos == $numero) {
-                $esIgual = true;
-            }
+        if (!$this->hayUsuario()) {
+            return false;
         }
-        return $esIgual;
+        return isset($this->_permisos[$numero]) && $this->_permisos[$numero];
     }
     
     

@@ -45,7 +45,7 @@ const COLORESFONDO = [
 
 session_start();
 
-$aCLArray = new ACLArray();
+$ACLArray = new ACLArray();
 $acceso = new Acceso();
 
 
