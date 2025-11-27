@@ -3,8 +3,14 @@ include_once(dirname(__FILE__) . "/../../cabecera.php");
 
 // Inicializaciones
 $barraUbi = [
-    ["TEXTO" => "Inicio",      "LINK" => "/index.php"],
-    ["TEXTO" => "index",       "LINK" => "/aplicacion/cookies_sesiones.php"]
+    [
+        "TEXTO" => "Inicio",
+        "LINK" => "/index.php"
+    ],
+    [
+        "TEXTO" => "Pruebas",
+        "LINK" => "/aplicacion/personalizar/personalizar.php"
+    ],
 ];
 if (!$acceso->hayUsuario()) {
     header("Location: /aplicacion/acceso/login.php");

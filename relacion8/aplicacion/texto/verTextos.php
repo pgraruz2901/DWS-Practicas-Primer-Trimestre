@@ -12,8 +12,14 @@ if (!$acceso->puedePermiso(1)) {
 }
 // Inicializaciones
 $barraUbi = [
-    ["TEXTO" => "Inicio",      "LINK" => "/index.php"],
-    ["TEXTO" => "index",       "LINK" => "/aplicacion/cookies_sesiones.php"]
+    [
+        "TEXTO" => "Inicio",
+        "LINK" => "/index.php"
+    ],
+    [
+        "TEXTO" => "Texto",
+        "LINK" => "/aplicacion/texto/verTexto.php"
+    ],
 ];
 
 $textos = $_SESSION["texto"] ?? [];

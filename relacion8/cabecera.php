@@ -51,3 +51,9 @@ $acceso = new Acceso();
 
 include(RUTABASE . "/aplicacion/plantilla/plantilla.php");
 include(RUTABASE . "/aplicacion/config/acceso_bd.php");
+
+
+//gestion bd
+mysqli_report(MYSQLI_REPORT_ERROR);
+$bd = @new mysqli($servidor, $usuario, $contrasenia, $baseDatos);
+$bd->set_charset("utf8");

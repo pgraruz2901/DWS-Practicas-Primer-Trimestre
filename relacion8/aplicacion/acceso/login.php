@@ -3,8 +3,14 @@ include_once(dirname(__FILE__) . "/../../cabecera.php");
 
 // Inicializaciones
 $barraUbi = [
-    ["TEXTO" => "Inicio",      "LINK" => "/index.php"],
-    ["TEXTO" => "index",       "LINK" => "/aplicacion/acceso/login.php"]
+    [
+        "TEXTO" => "Inicio",
+        "LINK" => "/index.php"
+    ],
+    [
+        "TEXTO" => "Acceso",
+        "LINK" => "/aplicacion/acceso/login.php"
+    ],
 ];
 $errores = [];
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
