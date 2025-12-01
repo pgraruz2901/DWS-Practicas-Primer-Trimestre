@@ -24,8 +24,6 @@ if ($bd->connect_errno) {
 }
 $sentSelect = "*";
 $sentFrom = "usuarios";
-$sentWhere = "";
-$sentOrder = "";
 
 //construyo la sentencia
 $sentencia = "SELECT $sentSelect " .
@@ -40,7 +38,7 @@ if (!$consulta) {
 $fila = [];
 $filas = [];
 while ($fila = $consulta->fetch_assoc()) {
-    $fila['cod_usuario'] = $fila['Nick'] . ":" . $fila['nombre'] . ":" . $fila['nif'] . ":" . $fila['direccion'] . ":" . $fila['poblacion'] . ":" . $fila['provincia'] . ":" . $fila['CP'] . ":" . $fila['fecha_nacimiento'] . ":" . $fila['borrado'] . ":" . $fila['foto'];
+    $fila['cod_usuario'] . ":" . $fila['nick'] . ":" . $fila['nombre'] . ":" . $fila['nif'] . ":" . $fila['direccion'] . ":" . $fila['poblacion'] . ":" . $fila['provincia'] . ":" . $fila['CP'] . ":" . $fila['fecha_nacimiento'] . ":" . $fila['borrado'] . ":" . $fila['foto'];
     $filas[] = $fila;
 }
 
@@ -81,8 +79,9 @@ function cuerpo($filas)
         <tbody>
             <?php
             foreach ($filas as $fila) {
+                $codUsu = $fila["cod_usuario"];
                 echo "<tr>";
-                echo "<td>{$fila['Nick']}</td>";
+                echo "<td>{$fila['nick']}</td>";
                 echo "<td>{$fila['nombre']}</td>";
                 echo "<td>{$fila['nif']}</td>";
                 echo "<td>{$fila['direccion']}</td>";
@@ -91,8 +90,8 @@ function cuerpo($filas)
                 echo "<td>{$fila['CP']}</td>";
                 echo "<td>{$fila['fecha_nacimiento']}</td>";
                 echo "<td>{$fila['borrado']}</td>";
-                echo "<td><img src='/aplicacion/imagenes/{$fila['foto']}'></td>";
-                echo "<td><a href=''>ver</a> - <a href=''>modificar</a> - <a href=''>borrar</a></td>";
+                echo "<td><img src='/imagenes/{$fila['foto']}'></td>";
+                echo "<td><a href='verUsuario.php?codUsu=$codUsu'>ver</a> - <a href='modificarUsuario.php?codUsu=$codUsu'>modificar</a> - <a href=''>borrar</a></td>";
                 echo "</tr>";
             }
             ?>

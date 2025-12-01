@@ -11,7 +11,7 @@ if ($bd->connect_errno) {
     exit;
 }
 $sentSelect = "*";
-$sentFront = "prueba1";
+$sentFrom = "usuarios";
 $sentWhere = "";
 $sentOrder = "cadena";
 
@@ -21,9 +21,9 @@ $sentWhere = " numero>10";
 
 //construyo la sentencia
 $sentencia = "SELECT $sentSelect" .
-     "FROM $sentFrom"  .
-    "WHERE $sentWhere"  .
-    " order by $sentOrder";
+     " FROM $sentFrom"  ;
+    // "WHERE $sentWhere"  .
+    // " order by $sentOrder";
 
 $consulta = $bd->query($sentencia);
 

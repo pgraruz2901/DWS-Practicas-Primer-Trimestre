@@ -56,4 +56,6 @@ include(RUTABASE . "/aplicacion/config/acceso_bd.php");
 //gestion bd
 mysqli_report(MYSQLI_REPORT_ERROR);
 $bd = @new mysqli($servidor, $usuario, $contrasenia, $baseDatos);
+// $ACL = new ACLBD($servidor, $usuario, $contrasenia, $baseDatos);
+
 $bd->set_charset("utf8");

@@ -37,7 +37,7 @@ of your domain and delete these references -->
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
         <link rel="stylesheet" type="text/css"
-            href="/estilo/style.css">
+            href="/estilo/styles.css">
     <?php
 }
 function finCabecera()

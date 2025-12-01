@@ -67,15 +67,17 @@ function validaEmail(string &$var, string $defecto): bool
         return $resultado;
     }
 }
-function validaCadena(string &$var, int $longitud, string $defecto): bool
+function validaCadena(?string &$var, int $longitud, string $defecto): bool
 {
-    $resultado = false;
-    if (is_string($var) && strlen($var) > $longitud) {
+    if (!is_string($var)) return false;
+
+    $var = trim($var);
+
+    if ($var === "" || strlen($var) > $longitud) {
         $var = $defecto;
-        return $resultado;
-    } else {
-        return $resultado = true;
+        return false;
     }
+    return true;
 }
 function validaExpresion(string &$var, string $expresion, string $defecto): bool
 {
