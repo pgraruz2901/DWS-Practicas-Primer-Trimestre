@@ -1,18 +1,15 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
-// if (!$acceso->puedePermiso(3) || !$acceso->puedePermiso(2)) {
-//     paginaError("no tienes los suficientes permisos");
-//     exit();
-// }
+
+if (!$acceso->puedePermiso(3) || !$acceso->puedePermiso(2)) {
+     paginaError("no tienes los suficientes permisos");
+    exit();
+}
 
 $barraUbi = [
     [
         "TEXTO" => "Inicio",
         "LINK" => "/index.php"
-    ],
-    [
-        "TEXTO" => "Usuarios",
-        "LINK" => "/aplicacion/usuarios/index.php"
     ],
     [
         "TEXTO" => "modificar Usuario",
@@ -22,6 +19,7 @@ $barraUbi = [
 $cod = $_GET["codUsu"];
 $consulta = null;
 $filas = [];
+$roles = $ACLBD->dameRoles();
 
 if ($cod != null && $cod != 0) {
     $sentSelect = "*";
@@ -49,11 +47,13 @@ if ($cod != null && $cod != 0) {
 $valores = [
     "nombre" => "",
     "nif" => "",
+    "contraseña" => "",
     "direccion" => "",
     "poblacion" => "",
     "provincia" => "",
     "CP" => "",
     "fecha_nacimiento" => "",
+    "rol" => "",
     "foto" => ""
 ];
 $errores = [];
@@ -68,6 +68,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errores[] = "NIF no válido";
     } else {
         $valores["nif"] = $_POST["nif"];
+    }
+    if($_POST["password"] !== $_POST["repitepassword"]){
+        $errores[] = "Las contraseñas no coinciden";
+    }else{
+        $valores["contraseña"] = $_POST["password"];
     }
     if (!validaCadena($_POST["direccion"], 50, "") || $_POST["direccion"] == "") {
         $errores[] = "Dirección no válida";
@@ -94,12 +99,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
         $valores["CP"] = $_POST["CP"];
     }
+
+    $valores["rol"] = $_POST["rol"];
+
     if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] === 0) {
-        $valores["foto"] = $_FILES["foto"]["name"];
+
+    $nombreArchivo = $usuario["nombre"] . "_" . basename($_FILES["foto"]["name"]);
+    $rutaDestino = $_SERVER["DOCUMENT_ROOT"] . "/imagenes/" . $nombreArchivo;
+
+    if (move_uploaded_file($_FILES["foto"]["tmp_name"], $rutaDestino)) {
+        $valores["foto"] = $nombreArchivo;
     } else {
+        $errores[] = "Error al subir la imagen";
+    }
+    }else{
         $valores["foto"] = "descarga.jpg";
     }
     if (empty($errores)) {
+        $codigoUsuario = $ACLBD->getCodUsuario($usuario["nick"]);
+        $ACLBD->setNombre($codigoUsuario, $valores["nombre"]);
+        $ACLBD->setContrasenia($codigoUsuario, $valores["contraseña"]);
+        $ACLBD->setUsuarioRole($codigoUsuario, $valores["rol"]);
+
+
         $sentencia = "UPDATE usuarios " .
             "SET nombre = '{$valores['nombre']}',
                 nif = '{$valores['nif']}',
@@ -113,6 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $bd->query($sentencia);
         header("Location: verUsuario.php?codUsu=$cod");
     }
+    
 }
 
 
@@ -122,7 +145,7 @@ cabecera();
 finCabecera();
 
 inicioCuerpo("modificar Usuario", $barraUbi);
-cuerpo($cod, $usuario, $valores, $errores);
+cuerpo($cod, $usuario, $valores, $errores, $roles);
 finCuerpo();
 
 
@@ -130,7 +153,7 @@ finCuerpo();
 
 function cabecera() {}
 
-function cuerpo($cod, $usuario, $valores, $errores)
+function cuerpo($cod, $usuario, $valores, $errores, $roles)
 {
 
 ?>
@@ -146,6 +169,12 @@ function cuerpo($cod, $usuario, $valores, $errores)
         <label>Introduce el nombre
             <input type="text" name="nombre" value="<?= empty($valores["nombre"]) ? $usuario["nombre"] : $valores["nombre"] ?>">
         </label>
+        <br>
+        <label for="password">Cambiar Contraseña</label>
+        <input type="password" name="password">
+        <br>
+        <label for="repitepassword">Repite la Contraseña</label>
+        <input type="password" name="repitepassword">
         <br>
         <label>Introduce el nif
             <input type="text" name="nif" value="<?= empty($valores["nif"]) ? $usuario["nif"] : $valores["nif"] ?>">
@@ -171,9 +200,21 @@ function cuerpo($cod, $usuario, $valores, $errores)
             <input type="date" name="fecha_nacimiento" value="<?= empty($valores["fecha_nacimiento"]) ? $usuario["fecha_nacimiento"] : $valores["fecha_nacimiento"] ?>">
         </label>
         <br>
+        <label for="rol">Introduce el rol</label>
+        <select name="rol">
+            <?php
+            foreach($roles as $rol => $key){
+                ?>
+                <option value="<?=$rol?>"><?=$key?></option>
+                <?php
+            }
+            ?>
+        </select>
+        <br>
         <label>Introduce la url foto
             <input type="file" name="foto">
         </label> <br>
+        <img src="/imagenes/<?php echo $usuario["foto"]?>">
         <?php
         if (!empty($errores)) {
             echo "<ul>";
@@ -187,7 +228,7 @@ function cuerpo($cod, $usuario, $valores, $errores)
         <button type="submit" name="enviar">modificar</button><br>
         <br>
         <a href='index.php'>volver</a>
-        <a href='verUsuario.php?codUsu' ?>verUsuario</a>
+        <a href='verUsuario.php?codUsu=<?= $usuario["cod_usuario"] ?>'>verUsuario</a>
     </form>
     <?php
 

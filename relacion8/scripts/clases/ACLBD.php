@@ -99,6 +99,20 @@ class ACLBD extends ACLBase{
      */
     public function getCodRole(string $nombre):int|false
     {
+        if (!$this->_hayConeccion)
+            return false;
+            
+        
+        $consulta = "SELECT cod_acl_role from acl_roles ".
+                    "      where nombre = $nombre";
+
+        $resul = $this->_sqli->query($consulta)->fetch_assoc();
+
+        if(is_null($resul))
+            return false;
+
+        return $resul["cod_acl_role"];
+
     }
 
     /**
@@ -162,7 +176,17 @@ class ACLBD extends ACLBase{
      */
     function getPermisoRole(int $codRole, int $numero):bool
     {
-             
+         
+        if (!$this->_hayConeccion)
+            return false;
+            
+        $permisos = $this->getPermisosRole($codRole);
+
+        if($permisos == false || $numero < 1|| $numero > 10){
+            return false;
+        }
+        return $permisos[$numero];
+
     }
 
     /**
@@ -237,7 +261,20 @@ class ACLBD extends ACLBase{
     function existeCodUsuario(int $codUsuario):bool
     {
 
+   if (!$this->_hayConeccion)
+            return false;
+            
         
+        $consulta = "SELECT 1 from acl_usuarios ".
+                    " where cod_acl_usuario = $codUsuario";
+
+        $resul = $this->_sqli->query($consulta)->fetch_assoc();
+
+        if(is_null($resul))
+            return false;
+
+        return true;
+     
     }
 
     /**
@@ -266,7 +303,25 @@ class ACLBD extends ACLBase{
     function esValido(string $nick, string $contrasena):bool
     {
  
+   if (!$this->_hayConeccion)
+            return false;
+        $nick = mb_strtolower($nick);
+        $nick = $this->_sqli->escape_string(mb_substr($nick, 0, 50));
+        $contrasena = mb_substr(sha1($contrasena), 0, 64);
+        $consulta = "SELECT 1 FROM acl_usuarios " .
+            "WHERE nick = '$nick' " .
+            "AND contrasenia = '$contrasena' " .
+            "AND borrado = false";
+
+        $resul = $this->_sqli->query($consulta)->fetch_assoc();
+
+        if(is_null($resul))
+            return false;
+
+        return true;
+
     }
+
 
 
     /**
@@ -282,7 +337,7 @@ class ACLBD extends ACLBase{
         if (!$this->_hayConeccion)
             return false;
 
-        if ($this->existeCodigoUsuario($codUsuario)=== false)
+        if ($this->existeCodUsuario($codUsuario)=== false)
             return false;    
 
         $resul = $this->getPermisos($codUsuario);
@@ -302,6 +357,32 @@ class ACLBD extends ACLBase{
      */
     function getPermisos(int $codUsuario):array|false
     {
+   if (!$this->_hayConeccion)
+            return false;
+        if (!$this->existeCodUsuario($codUsuario))
+            return false;
+
+    $consulta = "SELECT cod_acl_role FROM acl_usuarios WHERE cod_acl_usuario = $codUsuario";
+    $fila = $this->_sqli->query($consulta)->fetch_assoc();
+        if (!$fila)
+            return false;
+
+        $codRole = (int)$fila["cod_acl_role"];
+        $consulta = "SELECT `perm1`, `perm2`, `perm3`, `perm4`, `perm5`,".
+                    "      `perm6`, `perm7`, `perm8`, `perm9`, `perm10` ".
+                    "     FROM `acl_roles` ".
+                    "     WHERE cod_acl_role = $codRole";
+        
+        
+        $resul = $this->_sqli->query($consulta)->fetch_row();
+        if(!$resul){
+            return false;
+        }
+        $perm=[];
+        for($cont=1;$cont<11;$cont++)
+            $perm[$cont]=(bool)$resul[$cont-1];
+        
+        return ($perm);
 
     }
 
@@ -316,7 +397,7 @@ class ACLBD extends ACLBase{
         if (!$this->_hayConeccion)
             return false;
 
-        if ($this->existeCodigoUsuario($codUsuario)=== false)
+        if ($this->existeCodUsuario($codUsuario)=== false)
             return false;    
             
         
@@ -343,7 +424,7 @@ class ACLBD extends ACLBase{
         if (!$this->_hayConeccion)
             return false;
             
-        if ($this->existeCodigoUsuario($codUsuario)=== false)
+        if ($this->existeCodUsuario($codUsuario)=== false)
             return false;    
         
         $consulta = "SELECT borrado FROM acl_usuarios ".
@@ -365,6 +446,28 @@ class ACLBD extends ACLBase{
      */
     function getUsuarioRole(int $codUsuario):int|false
     {
+
+
+ if (!$this->_hayConeccion)
+            return false;
+
+        if ($this->existeCodUsuario($codUsuario)=== false)
+            return false;    
+            
+        
+        $consulta = "SELECT cod_acl_role FROM acl_usuarios ".
+                    "    WHERE cod_acl_usuario = $codUsuario";
+        $resul = $this->_sqli->query($consulta)->fetch_assoc();
+
+        if(!$resul){
+            return false;
+        }
+
+        if (is_null($resul))
+            return false;
+
+        return $resul["cod_acl_role"];
+ 
 
     }
 
@@ -403,7 +506,7 @@ class ACLBD extends ACLBase{
         if (!$this->_hayConeccion)
             return false;
             
-        if ($this->existeCodigoUsuario($codUsuario)=== false)
+        if ($this->existeCodUsuario($codUsuario)=== false)
             return false;    
 
         //usando md5
@@ -435,7 +538,8 @@ class ACLBD extends ACLBase{
     {
         if (!$this->_hayConeccion)
             return false;
-        if ($this->existeCodigoUsuario($codUsuario)=== false)
+
+        if ($this->existeCodUsuario($codUsuario) === false)
             return false;    
 
         $borrado=$borrado?"1":"0";
@@ -443,6 +547,7 @@ class ACLBD extends ACLBase{
                     "    WHERE cod_acl_usuario  = '$codUsuario'";
         $this->_sqli->query($consulta);
         return true;
+
     }
 
     /**
@@ -455,6 +560,22 @@ class ACLBD extends ACLBase{
      */
     function setUsuarioRole(int $codUsuario, int $role):bool
     {
+
+    if (!$this->_hayConeccion)
+            return false;
+                    
+    
+    if (!$this->existeCodUsuario($codUsuario))
+        return false;
+
+    if (!$this->existeRole($role))
+        return false;
+
+        $consulta = "UPDATE acl_usuarios SET cod_acl_role = $role ".  
+                    "    WHERE cod_acl_usuario = $codUsuario";
+        $resultado = $this->_sqli->query($consulta);
+
+        return $resultado ? true : false;
 
     }
 
@@ -493,6 +614,22 @@ class ACLBD extends ACLBase{
     function dameRoles():array
     {
  
+    if (!$this->_hayConeccion)
+            return false;
+
+        
+        $consulta = "SELECT cod_acl_role, nombre ".
+                    "      from acl_roles ".
+                    "ORDER BY cod_acl_role";
+
+        $datos = $this->_sqli->query($consulta);
+        $res = [];
+
+        while($fila=$datos->fetch_assoc())
+            $res[(int)$fila["cod_acl_role"]]=$fila["nombre"];
+        
+        return $res;
+
     }
 
 }

@@ -89,9 +89,9 @@ function cuerpo($filas)
                 echo "<td>{$fila['provincia']}</td>";
                 echo "<td>{$fila['CP']}</td>";
                 echo "<td>{$fila['fecha_nacimiento']}</td>";
-                echo "<td>{$fila['borrado']}</td>";
+                echo "<td>" . ($fila['borrado'] == true ? "si" : "no") . "</td>";
                 echo "<td><img src='/imagenes/{$fila['foto']}'></td>";
-                echo "<td><a href='verUsuario.php?codUsu=$codUsu'>ver</a> - <a href='modificarUsuario.php?codUsu=$codUsu'>modificar</a> - <a href=''>borrar</a></td>";
+                echo "<td><a href='verUsuario.php?codUsu=$codUsu'>ver</a> - <a href='modificarUsuario.php?codUsu=$codUsu'>modificar</a> - <a href='borrarUsuario.php?codUsu=$codUsu'>borrar</a></td>";
                 echo "</tr>";
             }
             ?>

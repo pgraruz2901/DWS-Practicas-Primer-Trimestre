@@ -17,10 +17,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($_POST["nick"]) || empty($_POST["contraseña"])) {
         $errores[] = "No has introducido alguno de los dos campos";
     } else {
-        if ($ACLArray->esValido($_POST["nick"], $_POST["contraseña"])) {
-            $codUsuario = $ACLArray->getCodUsuario($_POST["nick"]);
-            $permisos = $ACLArray->getPermisos($codUsuario);
-            $nombre = $ACLArray->getNombre($codUsuario);
+        if ($ACLBD->esValido($_POST["nick"], $_POST["contraseña"])) {
+            $codUsuario = $ACLBD->getCodUsuario($_POST["nick"]);
+            $permisos = $ACLBD->getPermisos($codUsuario);
+            $nombre = $ACLBD->getNombre($codUsuario);
             $acceso->registrarUsuario($_POST["nick"], $nombre, $permisos);
         } else {
             $errores[] = "Credenciales incorrectas";

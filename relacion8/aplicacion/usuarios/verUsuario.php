@@ -11,10 +11,6 @@ $barraUbi = [
         "LINK" => "/index.php"
     ],
     [
-        "TEXTO" => "Usuarios",
-        "LINK" => "/aplicacion/usuarios/index.php"
-    ],
-    [
         "TEXTO" => "ver Usuario",
         "LINK" => "/aplicacion/usuarios/verUsuario.php"
     ],
@@ -73,43 +69,45 @@ function cuerpo($usuario)
     <br>
     <form action="nuevoUsuario.php" method="post" enctype="multipart/form-data">
 
-        <label>Introduce el Nick
+        <label>Nick: 
             <input type="text" name="nick" readonly value="<?php echo $usuario["nick"] ?>">
         </label>
         <br>
-        <label>Introduce el nombre
+        <label>Nombre:
             <input type="text" name="nombre" readonly value="<?php echo $usuario["nombre"] ?>">
         </label>
         <br>
-        <label>Introduce el nif
+        <label>Nif:
             <input type="text" name="nif" readonly value="<?php echo $usuario["nif"] ?>">
         </label>
         <br>
-        <label>Introduce la direccion
+        <label>Direccion:
             <input type="text" name="direccion" readonly value="<?php echo $usuario["direccion"] ?> ">
         </label>
         <br>
-        <label>Introduce la poblacion
+        <label>Poblacion:
             <input type="text" name="poblacion" readonly value="<?php echo $usuario["poblacion"] ?>">
         </label>
         <br>
-        <label>Introduce la provincia
+        <label>Provincia:
             <input type="text" name="provincia" readonly value="<?php echo $usuario["provincia"] ?>">
         </label>
         <br>
-        <label>Introduce el CP
+        <label>CP:
             <input type="text" name="CP" readonly value="<?php echo $usuario["CP"] ?>">
         </label>
         <br>
-        <label>Introduce la fecha de nacimiento
+        <label>Fecha de nacimiento:
             <input type="date" name="fecha_nacimiento" readonly value="<?php echo $usuario["fecha_nacimiento"] ?>">
-        </label>
-        <br>
+        </label><br>
+        <label for="borrado">borrado</label>
+        <input type="checkbox" name="borrado" <?= $usuario["borrado"] ? "checked" : "" ?>>
+        <br><br>
         <img src="/imagenes/<?php echo $usuario["foto"] ?>">
         <br>
         <a href='index.php'>volver</a>
         <a href='modificarUsuario.php?codUsu=<?= $usuario["cod_usuario"] ?>'>modificar</a>
-        <a href=''>borrar</a>
+        <a href='borrarUsuario.php?codUsu=<?= $usuario["cod_usuario"] ?>'>borrar</a>
     </form>
     <?php
 
